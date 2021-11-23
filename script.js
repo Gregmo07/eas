@@ -1,14 +1,17 @@
 
 
-function generateGrid(){
+function generateGrid(tailleDemande){
+    if (!tailleDemande) resetGrid();
+    taille = parseInt(tailleDemande);
+    if (!Number.isInteger(taille)) resetGrid();
     const container = document.getElementById('container');
     const body = document.querySelector("body");
     const bodyWidth = Math.floor(body.offsetWidth*0.50);
     let drawZoneWidth;
-    if (bodyWidth%4 == 0){
+    if (bodyWidth%taille == 0){
         drawZoneWidth = bodyWidth ;
     } else {
-        drawZoneWidth = bodyWidth-bodyWidth%4 ;
+        drawZoneWidth = bodyWidth-bodyWidth%taille ;
     }
 
     container.style.width = `${drawZoneWidth}px`;
@@ -16,16 +19,17 @@ function generateGrid(){
 
     let carreWidth;
 
-    if (drawZoneWidth%4 == 0){
-        carreWidth = drawZoneWidth/4 ;
+    if (drawZoneWidth%taille == 0){
+        carreWidth = drawZoneWidth/taille ;
     } else {
-        carreWidth = (drawZoneWidth-(drawZoneWidth%4))/4 ;
+        carreWidth = (drawZoneWidth-(drawZoneWidth%taille))/taille ;
     }
     carreWidth += -2;
 
-    for (let i = 1; i <= 16; i++){
+    const tailleCarre = taille*taille;
+    for (let i = 1; i <= tailleCarre; i++){
         const carre =  document.createElement('div');
-        carre.style.border = 'solid 0.1rem black';
+        carre.style.border = 'solid 0.1px black';
         carre.style.flex = '1 0 0';
         carre.style.minWidth = `${carreWidth}px`;
         carre.style.maxWidth = `${carreWidth}px`;
@@ -45,8 +49,9 @@ function resetGrid(){
     while(containerToClean.firstChild){
         containerToClean.removeChild(containerToClean.firstChild);
     }
-    generateGrid();
+    
+    generateGrid(prompt('taille de la grille?'));
 }
 const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', resetGrid);
-generateGrid();
+generateGrid(10);

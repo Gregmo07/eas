@@ -15,3 +15,7 @@ button{
     flex-wrap: wrap;  
     width: 960px; 
 }
+
+.sortHidden {
+    visibility: hidden;
+}

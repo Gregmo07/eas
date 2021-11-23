@@ -46,12 +46,17 @@ function changeColor(e){
             e.target.style.backgroundColor = 'black';
             break;
         case 'rainbow':
-            const r = Math.floor(Math.random() * 255);
-            const g = Math.floor(Math.random() * 255);
-            const b = Math.floor(Math.random() * 255);
-            e.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            const r = Math.floor(Math.random() * 360);
+  
+            e.target.style.backgroundColor = `hsl(${r}, 100%, 50%)`;
             break;
 }}
+
+function generateColor(e) {
+    const d = Math.floor(Math.random() * 50);
+    e.style.backgroundColor = `hsl(${d}, 100%, 50%)`;
+    colorArray.push(d);
+}
 
 function resetGrid(){
     const containerToClean = document.getElementById('container');
@@ -61,11 +66,44 @@ function resetGrid(){
     
     generateGrid(prompt('taille de la grille?'));
 }
+
+function rainbowise(){
+    const sortButtonTrigger = document.getElementById("sort");
+    sortButtonTrigger.classList.remove("sortHidden");
+    const gridToColor = [...document.querySelectorAll(".square")];
+    gridToColor.forEach(element => {
+        generateColor(element);        
+    });
+}
+
+function sortGrid() {
+    colorArray.sort();
+        const unsortedGrid = [...document.querySelectorAll(".square")];
+        unsortedGrid.forEach(function (element, index){
+            console.log(element);
+            element.style.backgroundColor = `hsl(${colorArray[index]}, 100%, 50%)`; 
+            console.log(element);
+
+        });
+    
+}
+
+
+
+let mode = 'black';
+let colorArray = [];
+
 const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', resetGrid);
-let mode = 'black';
+
+const blackButton = document.getElementById('black');
+blackButton.addEventListener('click', () => mode = 'black');
 const rainbowButton = document.getElementById('rainbow');
 rainbowButton.addEventListener('click', () => mode = 'rainbow');
+const colorButton = document.getElementById('color');
+colorButton.addEventListener('click',rainbowise);
+const sortButton = document.getElementById('sort');
+sortButton.addEventListener('click',sortGrid);
 
 
 

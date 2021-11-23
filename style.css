@@ -12,5 +12,6 @@ button{
     margin: auto;
     display: flex;
     border: solid 4px blue;
-    flex-wrap: wrap;   
+    flex-wrap: wrap;  
+    width: 960px; 
 }

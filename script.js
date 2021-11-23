@@ -41,8 +41,17 @@ function generateGrid(tailleDemande){
 }
 
 function changeColor(e){
-    e.target.style.backgroundColor = 'black';
-}
+    switch(mode){
+        case 'black':
+            e.target.style.backgroundColor = 'black';
+            break;
+        case 'rainbow':
+            const r = Math.floor(Math.random() * 255);
+            const g = Math.floor(Math.random() * 255);
+            const b = Math.floor(Math.random() * 255);
+            e.target.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+            break;
+}}
 
 function resetGrid(){
     const containerToClean = document.getElementById('container');
@@ -54,4 +63,12 @@ function resetGrid(){
 }
 const resetButton = document.getElementById('reset');
 resetButton.addEventListener('click', resetGrid);
-generateGrid(10);
+let mode = 'black';
+const rainbowButton = document.getElementById('rainbow');
+rainbowButton.addEventListener('click', () => mode = 'rainbow');
+
+
+
+
+
+generateGrid(16);

@@ -14,6 +14,7 @@ button{
     border: solid 4px blue;
     flex-wrap: wrap;  
     width: 960px; 
+    perspective: 1000px;
 }
 
 .sortHidden {

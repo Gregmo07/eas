@@ -47,13 +47,11 @@ function changeColor(e){
             break;
         case 'rainbow':
             const r = Math.floor(Math.random() * 360);
-  
             e.target.style.backgroundColor = `hsl(${r}, 100%, 50%)`;
-            break;
 }}
 
 function generateColor(e) {
-    const d = Math.floor(Math.random() * 50);
+    const d = Math.floor(Math.random() * 360);
     e.style.backgroundColor = `hsl(${d}, 100%, 50%)`;
     colorArray.push(d);
 }
@@ -71,23 +69,40 @@ function rainbowise(){
     const sortButtonTrigger = document.getElementById("sort");
     sortButtonTrigger.classList.remove("sortHidden");
     const gridToColor = [...document.querySelectorAll(".square")];
+    colorArray = [];
     gridToColor.forEach(element => {
         generateColor(element);        
     });
 }
 
 function sortGrid() {
-    colorArray.sort();
-        const unsortedGrid = [...document.querySelectorAll(".square")];
-        unsortedGrid.forEach(function (element, index){
-            console.log(element);
-            element.style.backgroundColor = `hsl(${colorArray[index]}, 100%, 50%)`; 
-            console.log(element);
-
-        });
+    const unsortedGrid = [...document.querySelectorAll(".square")];
     
+    bubbleSort(colorArray);
+    unsortedGrid.forEach(function (element, index){
+        element.style.backgroundColor = `hsl(${colorArray[index]}, 100%, 50%)`; 
+    });
 }
-
+function bubbleSort(array) {
+    let done = false;
+    while (!done) {
+      done = true;
+      for (let i = 1; i < array.length; i += 1) {
+        if (array[i - 1] > array[i]) {
+          done = false;
+          const tmp = array[i - 1];
+          array[i - 1] = array[i];
+          array[i] = tmp;
+        }
+      }
+    }
+    return array;
+  }
+  function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+  }
+  
+ 
 
 
 let mode = 'black';
@@ -105,8 +120,141 @@ colorButton.addEventListener('click',rainbowise);
 const sortButton = document.getElementById('sort');
 sortButton.addEventListener('click',sortGrid);
 
-
-
-
-
 generateGrid(16);
+
+
+
+const animeButton = document.querySelector("#anime")
+
+
+animeButton.addEventListener("click", handleLetters);
+let isAnimatingIn = false;
+let calledOut = false;
+let animOpened = false;
+
+
+
+function handleLetters(){
+
+  
+
+  if(animOpened){
+
+    animOut();
+
+    animOpened = false;
+
+    return;
+
+  }
+
+
+
+  if(isAnimatingIn){
+
+    calledOut = true;
+
+    return;
+
+  }
+  isAnimatingIn = true;
+  const animPromise = new Promise((resolve) => {
+
+    animIn()
+
+    setTimeout(() => {
+
+      resolve()
+
+    }, 750)
+
+  })
+
+  animPromise.then(() => {
+
+    isAnimatingIn = false;
+
+
+
+    if(calledOut) {
+
+      animOut()
+
+      calledOut = false;
+
+    } else if (!calledOut){
+
+      animOpened = true;
+
+    }
+
+  })
+
+
+
+}
+
+
+
+function animIn(){
+
+  anime({
+
+    targets: ".square",
+
+    translateX: function(){
+
+      return anime.random(-250,250)
+
+    },
+
+    translateY: function(){
+
+      return anime.random(-20,250)
+
+    },
+
+    translateZ: function(){
+
+      return anime.random(-2000,750)
+
+    },
+
+    rotate: function(){
+
+      return anime.random(-250,250)
+
+    },
+
+    easing: "easeOutCirc",
+
+    duration: 1500
+
+  })
+
+}
+
+
+
+function animOut(){
+
+  anime({
+
+    targets: ".square",
+
+    translateX: 0,
+
+    translateY: 0,
+
+    translateZ: 0,
+
+    rotate: 0,
+
+    easing: "easeInQuad",
+
+    duration: 750
+
+  })
+  sortGrid();
+
+}

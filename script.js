@@ -78,12 +78,12 @@ function rainbowise(){
 function sortGrid() {
     const unsortedGrid = [...document.querySelectorAll(".square")];
     
-    bubbleSort(colorArray);
+    bubbleSort(colorArray, unsortedGrid);
     unsortedGrid.forEach(function (element, index){
         element.style.backgroundColor = `hsl(${colorArray[index]}, 100%, 50%)`; 
     });
 }
-function bubbleSort(array) {
+function bubbleSort(array, unsortedGrid) {
     let done = false;
     while (!done) {
       done = true;
@@ -94,16 +94,12 @@ function bubbleSort(array) {
           array[i - 1] = array[i];
           array[i] = tmp;
         }
+
       }
     }
     return array;
   }
-  function sleep (time) {
-    return new Promise((resolve) => setTimeout(resolve, time));
-  }
   
- 
-
 
 let mode = 'black';
 let colorArray = [];

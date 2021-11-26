@@ -228,7 +228,7 @@ function animIn(){
 
     easing: "easeOutCirc",
 
-    duration: 1500
+    duration: 3000
 
   })
 
